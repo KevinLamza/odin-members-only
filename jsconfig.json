@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "module": "CommonJS",
+        "checkJs": true,
+        "moduleResolution": "node",
+        "types": ["node"]
+    },
+    "include": ["*.js", "src/**/*.js"]
+}
