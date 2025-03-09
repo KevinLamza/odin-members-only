@@ -1,6 +1,5 @@
 const express = require('express');
-const body = express.body();
-const validationResult = express.validationResult();
+const { body, validationResult } = require('express-validator');
 
 const validateUser = [
     body('firstName')
@@ -18,8 +17,8 @@ const validateUser = [
     body('email')
         .trim()
         .isEmail()
-        .withMessage('Email needs to have this stucture: john.doe@mail.com')
-        .custom(),
+        .withMessage('Email needs to have this stucture: john.doe@mail.com'),
+    // .custom(),
     body('password')
         .trim()
         .isAlphanumeric()
@@ -30,3 +29,31 @@ const validateUser = [
         .custom((value, { req }) => value === req.body.password)
         .withMessage('The passwords do not match'),
 ];
+
+const getIndexPage = (req, res) => {
+    res.render('index');
+};
+
+const getCreateUser = (req, res) => {
+    res.render('sign-up');
+};
+
+const postCreateUser = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).render('sign-up', {
+            title: 'sign-up',
+            errors: errors.array(),
+        });
+    }
+
+    console.log(req.body);
+    res.redirect('/');
+};
+
+module.exports = {
+    validateUser,
+    getIndexPage,
+    getCreateUser,
+    postCreateUser,
+};
