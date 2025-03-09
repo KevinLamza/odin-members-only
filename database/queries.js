@@ -13,3 +13,7 @@ const insertUser = async (
         [firstName, lastName, email, password, isMember, isAdmin],
     );
 };
+
+module.exports = {
+    insertUser,
+};

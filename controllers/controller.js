@@ -1,5 +1,7 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
+const { insertUser } = require('../database/queries.js');
+const bcrypt = require('bcryptjs');
 
 const validateUser = [
     body('firstName')
@@ -38,7 +40,7 @@ const getCreateUser = (req, res) => {
     res.render('sign-up');
 };
 
-const postCreateUser = async (req, res) => {
+const postCreateUser = async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).render('sign-up', {
@@ -46,9 +48,21 @@ const postCreateUser = async (req, res) => {
             errors: errors.array(),
         });
     }
-
-    console.log(req.body);
-    res.redirect('/');
+    try {
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        await insertUser(
+            req.body.firstName,
+            req.body.lastName,
+            req.body.email,
+            hashedPassword,
+            false, //isMember
+            false, //isAdmin
+        );
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
 };
 
 module.exports = {

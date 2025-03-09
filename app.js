@@ -4,7 +4,6 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcryptjs');
 const { routes } = require('./routes/routes.js');
 
 const PORT = process.env.APP_PORT || 3000;
