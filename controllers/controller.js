@@ -33,7 +33,7 @@ const validateUser = [
 ];
 
 const getIndexPage = (req, res) => {
-    res.render('index');
+    res.render('index', { user: req.user });
 };
 
 const getCreateUser = (req, res) => {

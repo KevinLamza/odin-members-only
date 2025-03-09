@@ -5,6 +5,14 @@
         <title></title>
     </head>
     <body>
+        <% if (locals.user) {%>
+        <h1>
+            WELCOME BACK
+            <%= user.first_name %>
+        </h1>
+        <a href="/newMessage">Write a new message</a> </br>
+        <a href="/log-out">Log out</a>
+        <% }%>
         <h1>messages:</h1>
     </body>
 </html>
