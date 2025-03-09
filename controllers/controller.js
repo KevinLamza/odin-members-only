@@ -65,9 +65,14 @@ const postCreateUser = async (req, res, next) => {
     }
 };
 
+const getLoginPage = (req, res) => {
+    res.render('log-in');
+};
+
 module.exports = {
     validateUser,
     getIndexPage,
     getCreateUser,
     postCreateUser,
+    getLoginPage,
 };
