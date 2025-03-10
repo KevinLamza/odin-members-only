@@ -57,7 +57,21 @@ const isAuthenticated = (req, res, next) => {
     }
 };
 
+const logOut = (req, res, next) => {
+    if (req.user) {
+        req.logout(function (err) {
+            if (err) {
+                return next(err);
+            }
+            res.redirect('/');
+        });
+    } else {
+        res.redirect('/');
+    }
+};
+
 module.exports = {
     authenticateUser,
     isAuthenticated,
+    logOut,
 };
