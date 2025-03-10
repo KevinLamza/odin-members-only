@@ -69,10 +69,15 @@ const getLoginPage = (req, res) => {
     res.render('log-in');
 };
 
+const getProtectedPage = (req, res) => {
+    res.render('protected', { user: req.user });
+};
+
 module.exports = {
     validateUser,
     getIndexPage,
     getCreateUser,
     postCreateUser,
     getLoginPage,
+    getProtectedPage,
 };

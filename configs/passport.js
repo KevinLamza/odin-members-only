@@ -44,11 +44,20 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
-const isAuthenticated = passport.authenticate('local', {
+const authenticateUser = passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/log-in',
 });
 
+const isAuthenticated = (req, res, next) => {
+    if (req.user) {
+        next();
+    } else {
+        res.redirect('/log-in');
+    }
+};
+
 module.exports = {
+    authenticateUser,
     isAuthenticated,
 };
