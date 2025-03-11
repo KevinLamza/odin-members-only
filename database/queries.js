@@ -35,9 +35,17 @@ const insertNewMessage = async (user_id, message) => {
     );
 };
 
+const selectAllMessages = async () => {
+    const { rows } = await pool.query(
+        'SELECT message, created_at, first_name, last_name FROM messages LEFT JOIN users ON messages.user_id = users.id ORDER BY created_at DESC',
+    );
+    return { rows };
+};
+
 module.exports = {
     insertUser,
     getUserByEmail,
     getUserById,
     insertNewMessage,
+    selectAllMessages,
 };

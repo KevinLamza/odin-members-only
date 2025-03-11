@@ -14,5 +14,14 @@
         <a href="/log-out">Log out</a>
         <% }%>
         <h1>messages:</h1>
+        <% messages.forEach((message) => { %>
+            <span><%= message.message %></span><br />
+            <span><%= message.created_at %></span><br />
+            <% if (locals.user) { %>
+            <span><%= message.first_name %></span>
+            <span><%= message.last_name %></span><br />
+            <% } %>
+            <span>----------</span><br />
+            <% }); %>
     </body>
 </html>

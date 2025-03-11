@@ -1,6 +1,10 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const { insertUser, insertNewMessage } = require('../database/queries.js');
+const {
+    insertUser,
+    insertNewMessage,
+    selectAllMessages,
+} = require('../database/queries.js');
 const bcrypt = require('bcryptjs');
 
 const validateUser = [
@@ -32,8 +36,15 @@ const validateUser = [
         .withMessage('The passwords do not match'),
 ];
 
-const getIndexPage = (req, res) => {
-    res.render('index', { user: req.user });
+const getIndexPage = async (req, res, next) => {
+    try {
+        const { rows } = await selectAllMessages();
+        console.log(rows);
+        res.render('index', { user: req.user, messages: rows });
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
 };
 
 const getCreateUser = (req, res) => {
