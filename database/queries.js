@@ -42,10 +42,17 @@ const selectAllMessages = async () => {
     return { rows };
 };
 
+const updateMemberStatus = async (user_id) => {
+    await pool.query('UPDATE users SET is_member = true WHERE id = $1', [
+        user_id,
+    ]);
+};
+
 module.exports = {
     insertUser,
     getUserByEmail,
     getUserById,
     insertNewMessage,
     selectAllMessages,
+    updateMemberStatus,
 };

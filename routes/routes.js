@@ -14,6 +14,7 @@ const {
     getLoginPage,
     getNewMessagePage,
     postNewMessage,
+    getJoinTheClubPage,
 } = require('../controllers/controller.js');
 
 // const routes = express.Router();
@@ -27,6 +28,7 @@ routes.get('/log-in', getLoginPage);
 routes.post('/log-in', authenticateUser);
 routes.get('/newMessage', isAuthenticated, getNewMessagePage);
 routes.post('/newMessage', postNewMessage);
+routes.get('/joinTheClub', isAuthenticated, getJoinTheClubPage);
 routes.get('/log-out', logOut);
 
 module.exports = { routes };

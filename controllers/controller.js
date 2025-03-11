@@ -4,6 +4,7 @@ const {
     insertUser,
     insertNewMessage,
     selectAllMessages,
+    updateMemberStatus,
 } = require('../database/queries.js');
 const bcrypt = require('bcryptjs');
 
@@ -84,6 +85,10 @@ const getNewMessagePage = (req, res) => {
     res.render('newMessage', { user: req.user });
 };
 
+const getJoinTheClubPage = (req, res) => {
+    res.render('joinTheClub');
+};
+
 const postNewMessage = async (req, res, next) => {
     try {
         await insertNewMessage(req.user.id, req.body.message);
@@ -102,4 +107,5 @@ module.exports = {
     getLoginPage,
     getNewMessagePage,
     postNewMessage,
+    getJoinTheClubPage,
 };
