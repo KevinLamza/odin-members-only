@@ -1,6 +1,6 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
-const { insertUser } = require('../database/queries.js');
+const { insertUser, insertNewMessage } = require('../database/queries.js');
 const bcrypt = require('bcryptjs');
 
 const validateUser = [
@@ -69,8 +69,18 @@ const getLoginPage = (req, res) => {
     res.render('log-in');
 };
 
-const getProtectedPage = (req, res) => {
-    res.render('protected', { user: req.user });
+const getNewMessagePage = (req, res) => {
+    res.render('newMessage', { user: req.user });
+};
+
+const postNewMessage = async (req, res, next) => {
+    try {
+        await insertNewMessage(req.user.id, req.body.message);
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
 };
 
 module.exports = {
@@ -79,5 +89,6 @@ module.exports = {
     getCreateUser,
     postCreateUser,
     getLoginPage,
-    getProtectedPage,
+    getNewMessagePage,
+    postNewMessage,
 };

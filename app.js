@@ -29,5 +29,11 @@ app.set('view engine', 'ejs');
 // ROUTES
 app.use('/', routes);
 
+// ERROR HANDLING
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});
+
 // LISTENING
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

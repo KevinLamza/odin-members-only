@@ -28,8 +28,16 @@ const getUserById = async (id) => {
     return { rows };
 };
 
+const insertNewMessage = async (user_id, message) => {
+    await pool.query(
+        'INSERT INTO messages (user_id, message, created_at) VALUES ($1, $2, $3)',
+        [user_id, message, 'NOW()'],
+    );
+};
+
 module.exports = {
     insertUser,
     getUserByEmail,
     getUserById,
+    insertNewMessage,
 };

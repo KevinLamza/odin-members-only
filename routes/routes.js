@@ -12,7 +12,8 @@ const {
     getCreateUser,
     postCreateUser,
     getLoginPage,
-    getProtectedPage,
+    getNewMessagePage,
+    postNewMessage,
 } = require('../controllers/controller.js');
 
 // const routes = express.Router();
@@ -24,7 +25,8 @@ routes.get('/sign-up', getCreateUser);
 routes.post('/sign-up', validateUser, postCreateUser);
 routes.get('/log-in', getLoginPage);
 routes.post('/log-in', authenticateUser);
-routes.get('/protected', isAuthenticated, getProtectedPage);
-routes.get('/logout', logOut);
+routes.get('/newMessage', isAuthenticated, getNewMessagePage);
+routes.post('/newMessage', postNewMessage);
+routes.get('/log-out', logOut);
 
 module.exports = { routes };
