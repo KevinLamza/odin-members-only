@@ -37,11 +37,20 @@ const validateUser = [
         .withMessage('The passwords do not match'),
 ];
 
+const validatePassphrase = [
+    body('passphrase')
+        .trim()
+        .equals('letmein')
+        .withMessage('Wrong passphrase!'),
+];
+
 const getIndexPage = async (req, res, next) => {
     try {
         const { rows } = await selectAllMessages();
-        console.log(rows);
-        res.render('index', { user: req.user, messages: rows });
+        res.render('index', {
+            user: req.user,
+            messages: rows,
+        });
     } catch (error) {
         console.error(error);
         next(error);
@@ -85,10 +94,6 @@ const getNewMessagePage = (req, res) => {
     res.render('newMessage', { user: req.user });
 };
 
-const getJoinTheClubPage = (req, res) => {
-    res.render('joinTheClub');
-};
-
 const postNewMessage = async (req, res, next) => {
     try {
         await insertNewMessage(req.user.id, req.body.message);
@@ -99,8 +104,33 @@ const postNewMessage = async (req, res, next) => {
     }
 };
 
+const getJoinTheClubPage = (req, res) => {
+    res.render('joinTheClub');
+};
+
+const postJoinTheClubPage = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).render('joinTheClub', {
+            errors: errors.array(),
+        });
+    }
+    try {
+        if (req.body.passphrase === 'letmein') {
+            await updateMemberStatus(req.user.id);
+            res.redirect('/');
+        } else {
+            res.redirect('/');
+        }
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
 module.exports = {
     validateUser,
+    validatePassphrase,
     getIndexPage,
     getCreateUser,
     postCreateUser,
@@ -108,4 +138,5 @@ module.exports = {
     getNewMessagePage,
     postNewMessage,
     getJoinTheClubPage,
+    postJoinTheClubPage,
 };

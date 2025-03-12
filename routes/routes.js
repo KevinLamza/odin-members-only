@@ -8,6 +8,7 @@ const {
 
 const {
     validateUser,
+    validatePassphrase,
     getIndexPage,
     getCreateUser,
     postCreateUser,
@@ -15,6 +16,7 @@ const {
     getNewMessagePage,
     postNewMessage,
     getJoinTheClubPage,
+    postJoinTheClubPage,
 } = require('../controllers/controller.js');
 
 // const routes = express.Router();
@@ -29,6 +31,7 @@ routes.post('/log-in', authenticateUser);
 routes.get('/newMessage', isAuthenticated, getNewMessagePage);
 routes.post('/newMessage', postNewMessage);
 routes.get('/joinTheClub', isAuthenticated, getJoinTheClubPage);
+routes.post('/joinTheClub', validatePassphrase, postJoinTheClubPage);
 routes.get('/log-out', logOut);
 
 module.exports = { routes };
