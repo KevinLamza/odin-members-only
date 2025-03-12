@@ -48,6 +48,12 @@ const updateMemberStatus = async (user_id) => {
     ]);
 };
 
+const updateAdminStatus = async (user_id) => {
+    await pool.query('UPDATE users SET is_admin = true WHERE id = $1', [
+        user_id,
+    ]);
+};
+
 module.exports = {
     insertUser,
     getUserByEmail,
@@ -55,4 +61,5 @@ module.exports = {
     insertNewMessage,
     selectAllMessages,
     updateMemberStatus,
+    updateAdminStatus,
 };

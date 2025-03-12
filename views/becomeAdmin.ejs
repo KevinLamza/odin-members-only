@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title></title>
+    </head>
+    <body>
+        <h1>Enter the secret passphrase to become admin.</h1>
+        <%- include("partials/errors.ejs") %>
+        <form action="/becomeAdmin" method="POST">
+            <input id="passphrase" name="passphrase" type="text" />
+            <input type="submit" value="Submit" />
+        </form>
+    </body>
+</html>

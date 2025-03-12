@@ -12,6 +12,7 @@
         </h1>
         <a href="/newMessage">Write a new message</a> </br>
         <a href="/joinTheClub">Join the club</a> </br>
+        <a href="/becomeAdmin">Become Admin</a> </br>
         <a href="/log-out">Log out</a>
         <% }%>
         <h1>messages:</h1>
@@ -27,5 +28,8 @@
             <% } %>
             <span>----------</span><br />
             <% }); %>
+        <% if (locals.user && locals.user.is_admin === true) { %>
+            <span>You are admin</span>
+        <% } %>
     </body>
 </html>

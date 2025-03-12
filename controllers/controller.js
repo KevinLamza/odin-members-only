@@ -5,6 +5,7 @@ const {
     insertNewMessage,
     selectAllMessages,
     updateMemberStatus,
+    updateAdminStatus,
 } = require('../database/queries.js');
 const bcrypt = require('bcryptjs');
 
@@ -37,10 +38,17 @@ const validateUser = [
         .withMessage('The passwords do not match'),
 ];
 
-const validatePassphrase = [
+const validateClubPassphrase = [
     body('passphrase')
         .trim()
         .equals('letmein')
+        .withMessage('Wrong passphrase!'),
+];
+
+const validateAdminPassphrase = [
+    body('passphrase')
+        .trim()
+        .equals('givemethepower')
         .withMessage('Wrong passphrase!'),
 ];
 
@@ -128,9 +136,34 @@ const postJoinTheClubPage = async (req, res, next) => {
     }
 };
 
+const getBecomeAdminPage = (req, res) => {
+    res.render('becomeAdmin');
+};
+
+const postBecomeAdminPage = async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).render('becomeAdmin', {
+            errors: errors.array(),
+        });
+    }
+    try {
+        if (req.body.passphrase === 'givemethepower') {
+            await updateAdminStatus(req.user.id);
+            res.redirect('/');
+        } else {
+            res.redirect('/');
+        }
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
 module.exports = {
     validateUser,
-    validatePassphrase,
+    validateClubPassphrase,
+    validateAdminPassphrase,
     getIndexPage,
     getCreateUser,
     postCreateUser,
@@ -139,4 +172,6 @@ module.exports = {
     postNewMessage,
     getJoinTheClubPage,
     postJoinTheClubPage,
+    getBecomeAdminPage,
+    postBecomeAdminPage,
 };
