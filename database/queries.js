@@ -37,7 +37,7 @@ const insertNewMessage = async (user_id, message) => {
 
 const selectAllMessages = async () => {
     const { rows } = await pool.query(
-        'SELECT message, created_at, first_name, last_name FROM messages LEFT JOIN users ON messages.user_id = users.id ORDER BY created_at DESC',
+        'SELECT messages.id, message, created_at, first_name, last_name FROM messages LEFT JOIN users ON messages.user_id = users.id ORDER BY created_at DESC',
     );
     return { rows };
 };
@@ -54,6 +54,10 @@ const updateAdminStatus = async (user_id) => {
     ]);
 };
 
+const deleteMessage = async (message_id) => {
+    await pool.query('DELETE FROM messages WHERE id = $1', [message_id]);
+};
+
 module.exports = {
     insertUser,
     getUserByEmail,
@@ -62,4 +66,5 @@ module.exports = {
     selectAllMessages,
     updateMemberStatus,
     updateAdminStatus,
+    deleteMessage,
 };

@@ -26,10 +26,13 @@
                     <span><%= message.last_name %></span><br />
                 <% } %>
             <% } %>
+            <% if (locals.user && locals.user.is_admin === true) { %>
+                <form action="/deleteMessage" method="POST">
+                    <input type="hidden" name="message_id" value=<%= message.id %> />
+                    <button>Delete me</button><br />
+                </form>
+            <% } %>
             <span>----------</span><br />
             <% }); %>
-        <% if (locals.user && locals.user.is_admin === true) { %>
-            <span>You are admin</span>
-        <% } %>
     </body>
 </html>

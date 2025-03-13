@@ -6,6 +6,7 @@ const {
     selectAllMessages,
     updateMemberStatus,
     updateAdminStatus,
+    deleteMessage,
 } = require('../database/queries.js');
 const bcrypt = require('bcryptjs');
 
@@ -160,6 +161,16 @@ const postBecomeAdminPage = async (req, res, next) => {
     }
 };
 
+const postDeleteMessage = async (req, res, next) => {
+    try {
+        await deleteMessage(req.body.message_id);
+        res.redirect('/');
+    } catch (error) {
+        console.error(error);
+        next(error);
+    }
+};
+
 module.exports = {
     validateUser,
     validateClubPassphrase,
@@ -174,4 +185,5 @@ module.exports = {
     postJoinTheClubPage,
     getBecomeAdminPage,
     postBecomeAdminPage,
+    postDeleteMessage,
 };

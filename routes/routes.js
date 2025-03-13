@@ -20,6 +20,7 @@ const {
     postJoinTheClubPage,
     getBecomeAdminPage,
     postBecomeAdminPage,
+    postDeleteMessage,
 } = require('../controllers/controller.js');
 
 // const routes = express.Router();
@@ -37,6 +38,7 @@ routes.get('/joinTheClub', isAuthenticated, getJoinTheClubPage);
 routes.post('/joinTheClub', validateClubPassphrase, postJoinTheClubPage);
 routes.get('/becomeAdmin', isAuthenticated, getBecomeAdminPage);
 routes.post('/becomeAdmin', validateAdminPassphrase, postBecomeAdminPage);
+routes.post('/deleteMessage', postDeleteMessage);
 routes.get('/log-out', logOut);
 
 module.exports = { routes };
