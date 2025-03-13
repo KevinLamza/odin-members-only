@@ -8,6 +8,7 @@ passport.use(
         { usernameField: 'email' },
         async (email, password, done) => {
             try {
+                console.log('hello2');
                 const { rows } = await getUserByEmail(email);
                 const user = rows[0];
 
@@ -42,10 +43,25 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
-const authenticateUser = passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/log-in',
-});
+// const authenticateUser = passport.authenticate('local', {
+//     successRedirect: '/',
+//     failureRedirect: '/log-in',
+// });
+
+const authenticateUser = function (req, res, next) {
+    passport.authenticate('local', function (err, user, info) {
+        if (err) {
+            return next(err);
+        }
+        if (!user) {
+            console.log(info.message);
+            return res.render('log-in', { errors: [{ msg: info.message }] });
+        }
+
+        // NEED TO CALL req.login()!!!
+        req.login(user, next);
+    })(req, res, next);
+};
 
 const isAuthenticated = (req, res, next) => {
     if (req.user) {
