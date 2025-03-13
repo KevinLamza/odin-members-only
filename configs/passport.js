@@ -43,11 +43,6 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
-// const authenticateUser = passport.authenticate('local', {
-//     successRedirect: '/',
-//     failureRedirect: '/log-in',
-// });
-
 const authenticateUser = function (req, res, next) {
     passport.authenticate('local', function (err, user, info) {
         if (err) {
@@ -58,7 +53,6 @@ const authenticateUser = function (req, res, next) {
             return res.render('log-in', { errors: [{ msg: info.message }] });
         }
 
-        // NEED TO CALL req.login()!!!
         req.login(user, next);
     })(req, res, next);
 };

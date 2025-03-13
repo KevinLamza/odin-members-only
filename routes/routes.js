@@ -31,7 +31,7 @@ routes.get('/', getIndexPage);
 routes.get('/sign-up', getCreateUser);
 routes.post('/sign-up', validateUser, postCreateUser);
 routes.get('/log-in', getLoginPage);
-routes.post('/log-in', authenticateUser);
+routes.post('/log-in', authenticateUser, getIndexPage);
 routes.get('/newMessage', isAuthenticated, getNewMessagePage);
 routes.post('/newMessage', postNewMessage);
 routes.get('/joinTheClub', isAuthenticated, getJoinTheClubPage);
